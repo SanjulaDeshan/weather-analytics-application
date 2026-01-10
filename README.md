@@ -89,15 +89,21 @@ Backend: ```appsettings.json```
   },
   "WeatherSettings": {
     "ApiKey": "YOUR_OPENWEATHERMAP_API_KEY"
+  },
+    "Auth0": {
+        "Domain": "your domain",
+        "Audience": "your Audience"
   }
 }
 ```
 Frontend:```.env.local```
 ```bash
 AUTH0_SECRET='use-openssl-rand-hex-32'
-AUTH0_BASE_URL='http://localhost:3000'
-AUTH0_ISSUER_BASE_URL='https://YOUR_DOMAIN.auth0.com'
+APP_BASE_URL='http://localhost:3000'
+AUTH0_DOMAIN='YOUR_DOMAIN.auth0.com'
 AUTH0_CLIENT_ID='YOUR_CLIENT_ID'
 AUTH0_CLIENT_SECRET='YOUR_CLIENT_SECRET'
 AUTH0_AUDIENCE='https://weather-api'
+AUTH0_ISSUER_BASE_URL='https://YOUR_DOMAIN.auth0.com'
+NEXT_PUBLIC_BACKEND_API_URL='https://localhost:port_number'
 ```
