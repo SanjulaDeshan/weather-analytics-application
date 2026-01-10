@@ -42,11 +42,27 @@ export default function WeatherDashboardClient({ token }: { token: string }) {
 
   return (
     <div className="max-w-6xl mx-auto">
+
+      <div className="mb-6 flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+        <h1 className="text-2xl font-bold text-gray-800">Local Weather Analytics</h1>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-500">Cache Status:</span>
+          <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
+            cacheStatus === 'HIT' 
+              ? 'bg-green-100 text-green-700' 
+              : 'bg-orange-100 text-orange-700'
+          }`}>
+            {cacheStatus || 'Checking...'}
+          </span>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.map((city) => (
           <WeatherCard key={city.cityName} city={city} />
         ))}
       </div>
+
     </div>
   );
 }
