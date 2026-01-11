@@ -14,7 +14,7 @@ export default auth0.withPageAuthRequired(async function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="min-h-screen bg-gray-50 dark:bg-slate-950 p-8 transition-colors duration-300">
       <div className="flex justify-end max-w-6xl mx-auto mb-4">
         <a href="/auth/logout" className="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-bold">
           Logout
