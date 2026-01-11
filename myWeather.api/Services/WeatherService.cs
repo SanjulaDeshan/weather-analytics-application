@@ -34,7 +34,7 @@ namespace myWeather.api.Services
             return city;
         }
 
-        private double CalculateComfortScore(CityWeather city)
+        public static double CalculateComfortScore(CityWeather city)
         {
             double tempPenalty = Math.Abs(city.Temp - 22) * 3;
             double humPenalty = Math.Abs(city.Humidity - 50) * 0.5;
