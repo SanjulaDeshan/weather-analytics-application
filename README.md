@@ -1,6 +1,20 @@
 # Weather Analytics Application
 
 A secure, full-stack weather dashboard that calculates a custom **Comfort Index** for cities and ranks them from *Most Comfortable* to *Least Comfortable* using live weather data.
+![Weather Analytics Dashboard](assets/dashboard.png)
+---
+
+## Key Features
+* **Live Ranking**: Cities are ranked instantly based on the Comfort Index.
+* **Temperature Trends**: Click any city to view a 24-hour temperature forecast graph.
+* **Dark Mode**: Fully supported system-aware dark theme.
+* **Smart Filtering**: Filter cities by name or sort by Rank, Comfort, or Temperature.
+---
+## App Previews
+
+| Temperature Trend Graph | Dark Mode Support |
+|:-----------------------:|:-----------------:|
+| ![Trend Graph](assets/trend-graph.png) | ![Dark Mode](assets/dark-mode.png) |
 
 ---
 
@@ -22,12 +36,13 @@ A secure, full-stack weather dashboard that calculates a custom **Comfort Index*
     ```
 The API will start on ```https://localhost:7218``` (or your configured port).
 
-**or**
+**OR (using Visual Studio)**
 
 1. go to the myWeather.api
 2. open the visual studio solution file (myWeather.api.sln)
-3. Go to the top menu in Visual Studio: Build > Build Solution
-4. Go to the top menu in Visual Studio: Click the Run All button (Green play icon)
+3. Create an appsettings.json file (see template below)
+4. Go to the top menu in Visual Studio: Build > Build Solution
+5. Go to the top menu in Visual Studio: Click the Run All button (Green play icon)
 
 ### Frontend (Next.js)
 
@@ -121,6 +136,12 @@ Debug Status: Each response includes HIT or MISS
 Backend: ```appsettings.json```
 ```bash
 {
+  "Logging": {
+    "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+    }
+},
   "Auth0": {
     "Domain": "https://YOUR_DOMAIN.auth0.com/",
     "Audience": "https://weather-api"
