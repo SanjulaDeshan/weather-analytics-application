@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { Moon, Sun, Search, ArrowUpDown } from "lucide-react";
 import WeatherCard from './WeatherCard';
 import { CityWeather } from '../types/weather';
+import ForecastModal from './ForecastModal';
 
 export default function WeatherDashboardClient({ token }: { token: string }) {
   const { theme, setTheme } = useTheme();
@@ -16,6 +17,8 @@ export default function WeatherDashboardClient({ token }: { token: string }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<"rank" | "comfort" | "temp">("rank");
+
+  const [selectedCity, setSelectedCity] = useState<{ id: string, name: string } | null>(null);
 
   useEffect(() => setMounted(true), []);
 
@@ -123,17 +126,24 @@ export default function WeatherDashboardClient({ token }: { token: string }) {
 
       {/* Grid Displaying Processed Data */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {processedData.length > 0 ? (
-          processedData.map((city) => (
-            <WeatherCard key={city.cityName} city={city} />
-          ))
-        ) : (
-          <div className="col-span-full text-center py-10 text-gray-500 dark:text-slate-400">
-            No cities found matching "{searchTerm}"
-          </div>
-        )}
+        {processedData.map((city) => (
+          <WeatherCard 
+            key={city.cityName} 
+            city={city} 
+            onSelect={() => setSelectedCity({ id: city.cityId, name: city.cityName })} 
+          />
+        ))}
       </div>
 
+      {/* Render Modal if city is selected */}
+      {selectedCity && (
+        <ForecastModal 
+          cityId={selectedCity.id} 
+          cityName={selectedCity.name} 
+          token={token} 
+          onClose={() => setSelectedCity(null)} 
+        />
+      )}
     </div>
   );
 }

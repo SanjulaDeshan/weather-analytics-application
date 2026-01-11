@@ -1,4 +1,5 @@
 ﻿using myWeather.api.Models;
+using static myWeather.api.Models.ForecastModels;
 
 namespace myWeather.api.Services
 {
@@ -23,6 +24,7 @@ namespace myWeather.api.Services
 
             var city = new CityWeather
             {
+                CityId = cityId,
                 CityName = response.Name,
                 Description = response.Weather[0].Description,
                 Temp = response.Main.Temp,
@@ -42,6 +44,21 @@ namespace myWeather.api.Services
 
             double score = 100 - (tempPenalty + humPenalty + windPenalty);
             return Math.Clamp(score, 0, 100); 
+        }
+
+        public async Task<List<GraphPoint>> FetchCityForecastAsync(string cityId)
+        {
+            var url = $"https://api.openweathermap.org/data/2.5/forecast?id={cityId}&appid={_apiKey}&units=metric";
+            var response = await _httpClient.GetFromJsonAsync<ForecastApiResponse>(url);
+
+            if (response == null || response.List == null)
+                return new List<GraphPoint>();
+
+            return response.List.Take(8).Select(x => new GraphPoint
+            {
+                Time = DateTime.Parse(x.Dt_txt).ToString("h tt"),
+                Temp = x.Main.Temp
+            }).ToList();
         }
     }
 }

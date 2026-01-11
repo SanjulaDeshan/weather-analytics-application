@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using myWeather.api.Models;
 using myWeather.api.Services;
 using System.Text.Json;
+using static myWeather.api.Models.ForecastModels;
 
 namespace myWeather.api.Controllers
 {
@@ -55,6 +56,20 @@ namespace myWeather.api.Controllers
             }
 
             return Ok(new { data = weatherList, status = "HIT" });
+        }
+
+        [HttpGet("forecast/{cityId}")]
+        public async Task<IActionResult> GetForecast(string cityId)
+        {
+            string cacheKey = $"Forecast_{cityId}";
+
+            if (!_cache.TryGetValue(cacheKey, out List<GraphPoint> forecast))
+            {
+                forecast = await _weatherService.FetchCityForecastAsync(cityId);
+                _cache.Set(cacheKey, forecast, TimeSpan.FromMinutes(30));
+            }
+
+            return Ok(forecast);
         }
     }
 }

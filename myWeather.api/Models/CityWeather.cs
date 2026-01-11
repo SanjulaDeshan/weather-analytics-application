@@ -2,6 +2,7 @@
 {
     public class CityWeather
     {
+        public string CityId { get; set; } = string.Empty;
         public string CityName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Temp { get; set; }
