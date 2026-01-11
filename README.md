@@ -20,6 +20,14 @@ A secure, full-stack weather dashboard that calculates a custom **Comfort Index*
     ```bash
     dotnet run
     ```
+The API will start on ```https://localhost:7218``` (or your configured port).
+
+**or**
+
+1. go to the myWeather.api
+2. open the visual studio solution file (myWeather.api.sln)
+3. Go to the top menu in Visual Studio: Build > Build Solution
+4. Go to the top menu in Visual Studio: Click the Run All button (Green play icon)
 
 ### Frontend (Next.js)
 
@@ -40,6 +48,17 @@ npm install
 ```bash
 npm run dev
 ```
+5. Go to the ```http://localhost:3000/```
+
+### Running Tests
+
+1. The solution includes Unit Tests for the Comfort Index calculation logic using xUnit.
+
+2. Open the solution in Visual Studio.
+
+3. Open Test Explorer (Test > Test Explorer).
+
+4. Click Run All.
 
 ### Comfort Index Formula
 
@@ -71,6 +90,25 @@ Debug Status: Each response includes HIT or MISS
 * Trade-offs
 * Backend calculation ensures secure and consistent ranking.
 * In-memory cache chosen for simplicity (Redis recommended for production scale).
+
+### Design Decisions & Trade-offs
+
+1. Server-Side vs. Client-Side Calculation
+  * Decision: The Comfort Index is calculated on the Backend.
+
+  * Trade-off: This increases server CPU usage slightly but ensures Consistency and Security. If logic were on the client, ranking sorting would be complex (requires fetching   all data first) and the formula would be exposed.
+
+2. Caching Strategy
+  * Implementation: IMemoryCache (In-Memory).
+
+  * Logic: Raw API responses are cached for 5 minutes. The application checks for a cache entry before hitting the OpenWeatherMap API to avoid rate limits and reduce latency.
+
+  * Trade-off: In-memory caching is fast and simple for a single server but does not scale across multiple instances (would require Redis for distributed caching).
+
+3. Authentication Flow
+  * Implementation: Auth0 with Authorization Code Flow.
+
+  * Security: The frontend handles the login redirect, but the Backend validates the Access Token (JWT). Even if the UI is bypassed, the API remains secure ([Authorize] attribute).
 
 ### Known Limitations
 
